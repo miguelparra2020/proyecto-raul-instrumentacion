@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,8 +75,16 @@ WSGI_APPLICATION = 'vercel_app.wsgi.app'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # Note: Django modules for using databases are not support in serverless
 # environments like Vercel. You can use a database over HTTP, hosted elsewhere.
+# Primero, obtén la URL de la base de datos desde una variable de entorno o configúrala directamente
+DATABASE_URL = "postgres://fl0user:8suWX4qnFyCz@ep-calm-bread-a1za520a.ap-southeast-1.aws.neon.fl0.io:5432/databaseraul?sslmode=require"
 
-DATABASES = {}
+# Utiliza dj_database_url para parsear la URL de la base de datos
+db_from_env = dj_database_url.config(default=DATABASE_URL)
+
+# Actualiza la configuración de la base de datos en settings.py
+DATABASES = {
+    'default': db_from_env
+}
 
 
 # Password validation
